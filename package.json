@@ -1,0 +1,87 @@
+{
+  "name": "upi-intents",
+  "version": "0.1.0",
+  "description": "A framework-agnostic JS/TS library for generating UPI app-specific deep links with robust fallbacks for Android and iOS",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react.js",
+      "types": "./dist/react.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "bun run build:types && bun run build:js",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:js": "bun build src/index.ts --outdir dist --target browser --format esm && bun build src/react.ts --outdir dist --target browser --format esm",
+    "dev": "bun run build --watch",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "typecheck": "tsc --noEmit",
+    "example:vanilla": "cd examples/vanilla && bun run dev",
+    "example:react": "cd examples/react && bun run dev"
+  },
+  "keywords": [
+    "UPI",
+    "payments",
+    "fintech",
+    "google-pay",
+    "phonepe",
+    "paytm",
+    "bhim",
+    "intent-urls",
+    "deep-links",
+    "android",
+    "ios",
+    "npci"
+  ],
+  "author": "Sidharth Shambu",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "eslint": "^8.0.0",
+    "jsdom": "^23.0.0",
+    "playwright": "^1.40.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/upi-intents.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/upi-intents/issues"
+  },
+  "homepage": "https://github.com/your-username/upi-intents#readme",
+  "dependencies": {
+    "qr-creator": "^1.0.0"
+  }
+}

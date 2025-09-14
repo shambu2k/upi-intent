@@ -1,0 +1,162 @@
+[
+  {
+    "id": "generic",
+    "label": "Any UPI app",
+    "android": {
+      "pay": "upi://pay?{query}",
+      "mandate": "upi://mandate?{query}"
+    },
+    "ios": {
+      "pay": "upi://pay?{query}",
+      "mandate": "upi://mandate?{query}"
+    },
+    "brand": {
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z\"/></svg>"
+    },
+    "verification": {
+      "status": "verified",
+      "sources": ["NPCI Linking Spec 1.6"],
+      "notes": "Generic UPI scheme as per NPCI specification"
+    }
+  },
+  {
+    "id": "gpay",
+    "label": "Google Pay",
+    "androidPackage": "com.google.android.apps.nbu.paisa.user",
+    "android": {
+      "pay": "intent://pay?{query}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end",
+      "mandate": "intent://mandate?{query}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end"
+    },
+    "ios": {
+      "pay": "gpay://upi/pay?{query}",
+      "mandate": "gpay://upi/mandate?{query}"
+    },
+    "stores": {
+      "play": "https://play.google.com/store/apps/details?id=com.google.android.apps.nbu.paisa.user",
+      "app": "https://apps.apple.com/in/app/google-pay-save-pay-manage/id1193357041"
+    },
+    "brand": {
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill=\"#4285f4\" d=\"M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z\"/></svg>"
+    },
+    "verification": {
+      "status": "verified",
+      "sources": [
+        "Chrome Intent doc", 
+        "Google Pay India iOS in-app payments doc"
+      ],
+      "notes": "Use gpay:// on iOS per official docs; treat legacy tez:// as deprecated alias if tests pass."
+    }
+  },
+  {
+    "id": "phonepe",
+    "label": "PhonePe",
+    "androidPackage": "com.phonepe.app",
+    "android": {
+      "pay": "intent://pay?{query}#Intent;scheme=upi;package=com.phonepe.app;end",
+      "mandate": "intent://mandate?{query}#Intent;scheme=upi;package=com.phonepe.app;end"
+    },
+    "ios": {
+      "pay": "phonepe://pay?{query}",
+      "mandate": "phonepe://mandate?{query}"
+    },
+    "stores": {
+      "play": "https://play.google.com/store/apps/details?id=com.phonepe.app",
+      "app": "https://apps.apple.com/in/app/phonepe-upi-payments-recharge/id1170055821"
+    },
+    "brand": {
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill=\"#5f259f\" d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.59 2.24-1.33 2.79-.74.55-1.84.92-3.31.92-.81 0-1.49-.22-2-.66-.51-.44-.74-1.08-.74-1.91 0-.75.18-1.33.53-1.76.35-.43.84-.64 1.47-.64.51 0 .93.13 1.26.4.33.27.52.65.52 1.15 0 .4-.1.72-.29.97-.19.25-.45.37-.78.37-.25 0-.44-.06-.57-.18-.13-.12-.2-.29-.2-.51 0-.17.04-.3.12-.39.08-.09.18-.14.3-.14.09 0 .16.02.21.07.05.05.08.11.08.18 0 .05-.01.09-.04.12-.03.03-.07.04-.12.04-.03 0-.05-.01-.06-.02-.01-.01-.02-.02-.02-.04 0-.01.01-.02.02-.03.01-.01.02-.01.04-.01.01 0 .02 0 .02.01.01.01.01.01.01.02 0 .01-.01.02-.02.02-.01 0-.02-.01-.02-.02 0-.01.01-.01.02-.01.01 0 .02.01.02.02 0 .01-.01.02-.02.02-.01 0-.02-.01-.02-.02z\"/></svg>"
+    },
+    "verification": {
+      "status": "community-observed",
+      "sources": [
+        "PhonePe Dev portal (general)", 
+        "ecosystem references"
+      ],
+      "notes": "iOS scheme inferred from field usage; confirm via device smoke tests."
+    }
+  },
+  {
+    "id": "paytm",
+    "label": "Paytm",
+    "androidPackage": "net.one97.paytm",
+    "android": {
+      "pay": "intent://pay?{query}#Intent;scheme=upi;package=net.one97.paytm;end",
+      "mandate": "intent://mandate?{query}#Intent;scheme=upi;package=net.one97.paytm;end"
+    },
+    "ios": {
+      "pay": "paytmmp://pay?{query}",
+      "mandate": "paytmmp://mandate?{query}"
+    },
+    "stores": {
+      "play": "https://play.google.com/store/apps/details?id=net.one97.paytm",
+      "app": "https://apps.apple.com/in/app/paytm-secure-upi-payments/id473941634"
+    },
+    "brand": {
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill=\"#002970\" d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z\"/></svg>"
+    },
+    "verification": {
+      "status": "community-observed",
+      "sources": [
+        "Paytm business docs (Smart Intent)", 
+        "ecosystem references"
+      ],
+      "notes": "Paytm deep link docs focus on SDK/Smart Intent; URL scheme unofficial publicly."
+    }
+  },
+  {
+    "id": "bhim",
+    "label": "BHIM",
+    "androidPackage": "in.org.npci.upiapp",
+    "android": {
+      "pay": "intent://pay?{query}#Intent;scheme=upi;package=in.org.npci.upiapp;end",
+      "mandate": "intent://mandate?{query}#Intent;scheme=upi;package=in.org.npci.upiapp;end"
+    },
+    "ios": {
+      "pay": "bhim://upi/pay?{query}",
+      "mandate": "bhim://upi/mandate?{query}"
+    },
+    "stores": {
+      "play": "https://play.google.com/store/apps/details?id=in.org.npci.upiapp",
+      "app": "https://apps.apple.com/in/app/bhim-bharats-own-payments-app/id1200315258"
+    },
+    "brand": {
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill=\"#ff6600\" d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z\"/></svg>"
+    },
+    "verification": {
+      "status": "community-observed",
+      "sources": [
+        "Store listings", 
+        "NPCI BHIM materials"
+      ],
+      "notes": "Normalize to single slash in path (avoid `upi//mandate`). Confirm via device tests."
+    }
+  },
+  {
+    "id": "amazonpay",
+    "label": "Amazon Pay UPI",
+    "androidPackage": "in.amazon.mShop.android.shopping",
+    "android": {
+      "pay": "intent://pay?{query}#Intent;scheme=upi;package=in.amazon.mShop.android.shopping;end",
+      "mandate": "intent://mandate?{query}#Intent;scheme=upi;package=in.amazon.mShop.android.shopping;end"
+    },
+    "ios": {
+      "pay": "amzn://upi/pay?{query}",
+      "mandate": "amzn://upi/mandate?{query}"
+    },
+    "stores": {
+      "play": "https://play.google.com/store/apps/details?id=in.amazon.mShop.android.shopping",
+      "app": "https://apps.apple.com/in/app/amazon-india-shop-pay-movies/id660363563"
+    },
+    "brand": {
+      "iconSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill=\"#ff9900\" d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z\"/></svg>"
+    },
+    "verification": {
+      "status": "community-observed",
+      "sources": [
+        "Amazon UPI help pages", 
+        "ecosystem observations"
+      ],
+      "notes": "Amazon does not publish a public UPI URL scheme; treat as tentative pending tests."
+    }
+  }
+]

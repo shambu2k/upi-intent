@@ -1,0 +1,256 @@
+.App {
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.container > div {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 0;
+}
+
+.subtitle {
+  color: #666;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.primary-btn, .secondary-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.primary-btn {
+  background: #007bff;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #0056b3;
+}
+
+.secondary-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.secondary-btn:hover {
+  background: #545b62;
+}
+
+.error-message {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.results-section {
+  margin-top: 20px;
+  padding: 20px;
+  background: #e8f5e8;
+  border-radius: 8px;
+  border: 1px solid #d4edda;
+}
+
+.results-section h3 {
+  margin-top: 0;
+  color: #155724;
+}
+
+.uri-display {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+  font-family: 'Courier New', monospace;
+  word-break: break-all;
+  margin: 15px 0;
+  font-size: 12px;
+  text-align: left;
+}
+
+.app-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.upi-app-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.upi-app-button {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  background: white;
+  transition: all 0.2s;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.upi-app-button:hover {
+  background: #f8f9fa;
+  border-color: #007bff;
+  text-decoration: none;
+  color: #333;
+}
+
+.upi-app-button.fallback {
+  opacity: 0.7;
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+.app-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.app-label {
+  font-weight: 500;
+}
+
+.app-button-error {
+  color: #dc3545;
+  font-size: 12px;
+  padding: 5px;
+  border: 1px solid #dc3545;
+  border-radius: 4px;
+  background: #f8d7da;
+}
+
+.app-button-loading {
+  color: #6c757d;
+  font-size: 12px;
+  padding: 5px;
+  border: 1px solid #6c757d;
+  border-radius: 4px;
+  background: #f8f9fa;
+}
+
+.qr-container {
+  margin-top: 20px;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+
+.qr-container h4 {
+  margin-top: 0;
+  color: #333;
+}
+
+.qr-code {
+  margin: 15px 0;
+  display: inline-block;
+}
+
+.download-btn {
+  background: #28a745;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.download-btn:hover {
+  background: #218838;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .primary-btn, .secondary-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .app-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .upi-app-button {
+    width: 100%;
+    max-width: 200px;
+  }
+}
