@@ -51,7 +51,7 @@
     "npci"
   ],
   "author": "Sidharth Shambu",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/bun": "latest",
     "@types/react": "^18.2.0",

@@ -1,10 +1,10 @@
 # 🔗 UPI Intents
 
-[![Tests](https://img.shields.io/badge/tests-46%20passing-brightgreen.svg)](./tests)
+[![CI](https://github.com/shambu2k/upi-intent/actions/workflows/ci.yml/badge.svg)](https://github.com/shambu2k/upi-intent/actions/workflows/ci.yml)
+[![Coverage](https://github.com/shambu2k/upi-intent/actions/workflows/coverage.yml/badge.svg)](https://github.com/shambu2k/upi-intent/actions/workflows/coverage.yml)
+[![Bundle Size](https://github.com/shambu2k/upi-intent/actions/workflows/bundle-size.yml/badge.svg)](https://github.com/shambu2k/upi-intent/actions/workflows/bundle-size.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](./tests)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Bundle Size](https://img.shields.io/badge/bundle%20size-%3C6KB-brightgreen.svg)](./package.json)
 
 > Framework-agnostic TypeScript library for UPI deep-linking across Android and iOS platforms with robust fallbacks and NPCI compliance.
 
@@ -229,8 +229,8 @@ export default {
 ### Setup
 
 ```bash
-git clone https://github.com/your-org/upi-intents.git
-cd upi-intents
+git clone https://github.com/shambu2k/upi-intent.git
+cd upi-intent
 bun install
 ```
 
@@ -247,10 +247,10 @@ bun run typecheck     # Run TypeScript checks
 ### Testing
 
 ```bash
-bun run test --run    # Run all 46 tests
+bun run test --run    # Run all 55 tests
 ```
 
-Current test coverage: **100%** on core functionality
+Current test coverage will be shown in the coverage badge above.
 
 ## 📋 Examples
 
@@ -292,9 +292,9 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 ## 📞 Support
 
 - 📖 [Documentation](./docs)
-- 🐛 [Issue Tracker](https://github.com/your-org/upi-intents/issues)
-- 💬 [Discussions](https://github.com/your-org/upi-intents/discussions)
-- 📧 [Email Support](mailto:support@your-org.com)
+- 🐛 [Issue Tracker](https://github.com/shambu2k/upi-intent/issues)
+- 💬 [Discussions](https://github.com/shambu2k/upi-intent/discussions)
+- 📧 [Email Support](mailto:shambu@duck.com?subject="upi-intents lib query")
 
 ---
 

@@ -1,0 +1,69 @@
+name: Bundle Size Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  bundle-size:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+        
+    - name: Install dependencies
+      run: bun install --frozen-lockfile
+      
+    - name: Build package
+      run: bun run build
+      
+    - name: Analyze bundle size
+      run: |
+        echo "📦 Bundle Size Analysis"
+        echo "======================="
+        
+        if [ -f "dist/index.js" ]; then
+          SIZE=$(wc -c < dist/index.js)
+          SIZE_KB=$((SIZE / 1024))
+          echo "Main bundle: ${SIZE_KB}KB (${SIZE} bytes)"
+          
+          # Check if size is under 6KB (6144 bytes)
+          if [ $SIZE -lt 6144 ]; then
+            echo "✅ Bundle size is under 6KB limit"
+            echo "BUNDLE_SIZE_STATUS=success" >> $GITHUB_ENV
+            echo "BUNDLE_SIZE=${SIZE_KB}KB" >> $GITHUB_ENV
+          else
+            echo "❌ Bundle size exceeds 6KB limit"
+            echo "BUNDLE_SIZE_STATUS=failure" >> $GITHUB_ENV
+            echo "BUNDLE_SIZE=${SIZE_KB}KB" >> $GITHUB_ENV
+            exit 1
+          fi
+        else
+          echo "❌ No dist/index.js found"
+          exit 1
+        fi
+        
+    - name: Comment bundle size on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const size = process.env.BUNDLE_SIZE;
+          const status = process.env.BUNDLE_SIZE_STATUS;
+          const emoji = status === 'success' ? '✅' : '❌';
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `${emoji} **Bundle Size Check**\n\nCurrent size: **${size}**\nLimit: 6KB`
+          });
