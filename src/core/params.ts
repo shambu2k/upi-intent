@@ -130,7 +130,7 @@ const VALIDATION_RULES: Record<string, ValidationRule> = {
   tr: {
     required: false,
     maxLength: 35,
-    pattern: /^[a-zA-Z0-9\-]+$/,
+    pattern: /^[a-zA-Z0-9-]+$/,
     description: 'Transaction reference (alphanumeric with hyphens)'
   },
   tn: {

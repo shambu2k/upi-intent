@@ -50,9 +50,8 @@ export {
   type QRCodeResult,
   generateQRCode,
   generateQRCanvas,
-  downloadQRCode,
-  supportsQRGeneration
-} from './src/qr/encoder.js';
+  downloadQRCode
+} from './src/qr/encoder';
 
 // Re-export for convenience
 export { default as appsData } from './src/data/apps.json' assert { type: 'json' };

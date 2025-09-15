@@ -10,10 +10,6 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    },
-    "./react": {
-      "import": "./dist/react.js",
-      "types": "./dist/react.d.ts"
     }
   },
   "files": [
@@ -25,7 +21,7 @@
   "scripts": {
     "build": "bun run build:types && bun run build:js",
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
-    "build:js": "bun build src/index.ts --outdir dist --target browser --format esm && bun build src/react.ts --outdir dist --target browser --format esm",
+    "build:js": "bun build src/index.ts --outdir dist --target browser --format esm",
     "dev": "bun run build --watch",
     "test": "vitest",
     "test:ui": "vitest --ui",
@@ -54,9 +50,8 @@
   "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/react": "^18.2.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
     "@vitest/coverage-v8": "^1.0.0",
     "@vitest/ui": "^1.0.0",
     "eslint": "^8.0.0",
@@ -65,23 +60,15 @@
     "typescript": "^5.0.0",
     "vitest": "^1.0.0"
   },
-  "peerDependencies": {
-    "react": ">=16.8.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    }
+  "dependencies": {
+    "qr-creator": "^1.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/upi-intents.git"
+    "url": "https://github.com/shambu2k/upi-intent.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/upi-intents/issues"
+    "url": "https://github.com/shambu2k/upi-intent/issues"
   },
-  "homepage": "https://github.com/your-username/upi-intents#readme",
-  "dependencies": {
-    "qr-creator": "^1.0.0"
-  }
+  "homepage": "https://github.com/shambu2k/upi-intent"
 }

@@ -214,7 +214,7 @@ export function generateBrandedQRCode(
   const ctx = canvas.getContext('2d');
   if (ctx) {
     const img = new Image();
-    img.onload = () => {
+    img.onload = (): void => {
       ctx.drawImage(img, 0, 0);
     };
     img.src = `data:image/svg+xml;base64,${btoa(enhancedSvg)}`;
