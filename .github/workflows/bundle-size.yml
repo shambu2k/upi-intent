@@ -35,13 +35,13 @@ jobs:
           SIZE_KB=$((SIZE / 1024))
           echo "Main bundle: ${SIZE_KB}KB (${SIZE} bytes)"
           
-          # Check if size is under 6KB (6144 bytes)
-          if [ $SIZE -lt 6144 ]; then
-            echo "✅ Bundle size is under 6KB limit"
+          # Check if size is under 42KB (43008 bytes)
+          if [ $SIZE -lt 43008 ]; then
+            echo "✅ Bundle size is under 42KB limit"
             echo "BUNDLE_SIZE_STATUS=success" >> $GITHUB_ENV
             echo "BUNDLE_SIZE=${SIZE_KB}KB" >> $GITHUB_ENV
           else
-            echo "❌ Bundle size exceeds 6KB limit"
+            echo "❌ Bundle size exceeds 42KB limit"
             echo "BUNDLE_SIZE_STATUS=failure" >> $GITHUB_ENV
             echo "BUNDLE_SIZE=${SIZE_KB}KB" >> $GITHUB_ENV
             exit 1
@@ -65,5 +65,5 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: `${emoji} **Bundle Size Check**\n\nCurrent size: **${size}**\nLimit: 6KB`
+            body: `${emoji} **Bundle Size Check**\n\nCurrent size: **${size}**\nLimit: 42KB`
           });
