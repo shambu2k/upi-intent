@@ -280,7 +280,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## 📄 License
 
-MIT License - see the [LICENSE](LICENSE) file for details.
+GPL-3.0-only License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
