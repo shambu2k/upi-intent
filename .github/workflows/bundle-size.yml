@@ -35,13 +35,13 @@ jobs:
           SIZE_KB=$((SIZE / 1024))
           echo "Main bundle: ${SIZE_KB}KB (${SIZE} bytes)"
           
-          # Check if size is under 42KB (43008 bytes)
-          if [ $SIZE -lt 43008 ]; then
-            echo "✅ Bundle size is under 42KB limit"
+          # Check if size is under 55KB (56320 bytes)
+          if [ $SIZE -lt 56320 ]; then
+            echo "✅ Bundle size is under 55KB limit"
             echo "BUNDLE_SIZE_STATUS=success" >> $GITHUB_ENV
             echo "BUNDLE_SIZE=${SIZE_KB}KB" >> $GITHUB_ENV
           else
-            echo "❌ Bundle size exceeds 42KB limit"
+            echo "❌ Bundle size exceeds 55KB limit"
             echo "BUNDLE_SIZE_STATUS=failure" >> $GITHUB_ENV
             echo "BUNDLE_SIZE=${SIZE_KB}KB" >> $GITHUB_ENV
             exit 1

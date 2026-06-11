@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "upi-intent",
@@ -8,7 +9,6 @@
       },
       "devDependencies": {
         "@types/bun": "latest",
-        "@types/react": "^18.2.0",
         "@typescript-eslint/eslint-plugin": "^8.43.0",
         "@typescript-eslint/parser": "^8.43.0",
         "@vitest/coverage-v8": "^1.0.0",
@@ -19,12 +19,6 @@
         "typescript": "^5.0.0",
         "vitest": "^1.0.0",
       },
-      "peerDependencies": {
-        "react": ">=16.8.0",
-      },
-      "optionalPeers": [
-        "react",
-      ],
     },
   },
   "packages": {

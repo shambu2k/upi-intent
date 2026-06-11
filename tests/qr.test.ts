@@ -139,11 +139,12 @@ describe('QR Code Generation', () => {
       toDataURL: vi.fn(() => 'data:image/png;base64,mock-canvas-data')
     };
 
-    vi.mocked(global.document.createElement).mockReturnValueOnce(mockCanvas as any);
+    const createSpy = vi.spyOn(global.document, 'createElement').mockReturnValueOnce(mockCanvas as any);
 
     downloadQRCode(testUpiUri, 'test-qr.png');
     
     expect(mockCanvas.toDataURL).toHaveBeenCalledWith('image/png');
+    createSpy.mockRestore();
   });
 
   it('should generate server-safe QR code', () => {

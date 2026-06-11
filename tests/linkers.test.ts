@@ -19,7 +19,11 @@ const mockNavigator = {
 };
 
 beforeEach(() => {
-  vi.stubGlobal('navigator', mockNavigator);
+  Object.defineProperty(globalThis, 'navigator', {
+    value: mockNavigator,
+    writable: true,
+    configurable: true,
+  });
 });
 
 describe('Platform Detection', () => {
@@ -39,7 +43,11 @@ describe('Platform Detection', () => {
   });
 
   it('should handle server-side environment', () => {
-    vi.stubGlobal('navigator', undefined);
+    Object.defineProperty(globalThis, 'navigator', {
+      value: undefined,
+      writable: true,
+      configurable: true,
+    });
     expect(detectPlatform()).toBe('android');
   });
 });
@@ -281,10 +289,212 @@ describe('Multiple App Links', () => {
   it('should support mandate action for multiple apps', () => {
     const mandateUri = 'upi://mandate?pa=test%40upi&pn=Test+User&tr=SUB123';
     const results = buildMultipleAppLinks(mandateUri, ['gpay', 'phonepe'], 'android', 'mandate');
-    
+
     results.forEach(result => {
       expect(result.action).toBe('mandate');
       expect(result.url).toContain('mandate');
     });
+  });
+});
+
+describe('New UPI App Link Generation', () => {
+  const testUpiUri = 'upi://pay?pa=test%40upi&pn=Test+User&am=100&cu=INR';
+
+  describe('CRED', () => {
+    it('should generate CRED Android Intent link', () => {
+      const result = buildAppLink({
+        appId: 'cred',
+        upiUri: testUpiUri,
+        platform: 'android'
+      });
+
+      expect(result.url).toContain('intent://pay?');
+      expect(result.url).toContain('package=com.dreamplug.androidapp');
+      expect(result.app.id).toBe('cred');
+      expect(result.app.label).toBe('CRED');
+    });
+
+    it('should generate CRED iOS scheme link', () => {
+      const result = buildAppLink({
+        appId: 'cred',
+        upiUri: testUpiUri,
+        platform: 'ios'
+      });
+
+      expect(result.url).toBe('credpay://upi/pay?pa=test%40upi&pn=Test+User&am=100&cu=INR');
+      expect(result.platform).toBe('ios');
+    });
+  });
+
+  describe('ICICI Bank', () => {
+    it('should generate ICICI iMobile Pay Android Intent link', () => {
+      const result = buildAppLink({
+        appId: 'icici',
+        upiUri: testUpiUri,
+        platform: 'android'
+      });
+
+      expect(result.url).toContain('package=com.csam.icici.bank.imobile');
+      expect(result.app.id).toBe('icici');
+      expect(result.app.label).toBe('ICICI Bank (iMobile Pay)');
+    });
+
+    it('should generate ICICI iOS scheme link', () => {
+      const result = buildAppLink({
+        appId: 'icici',
+        upiUri: testUpiUri,
+        platform: 'ios'
+      });
+
+      expect(result.url).toBe('imobile://upi/pay?pa=test%40upi&pn=Test+User&am=100&cu=INR');
+    });
+  });
+
+  describe('Tata Neu', () => {
+    it('should generate Tata Neu Android Intent link', () => {
+      const result = buildAppLink({
+        appId: 'tataneu',
+        upiUri: testUpiUri,
+        platform: 'android'
+      });
+
+      expect(result.url).toContain('package=com.tatadigital.neumoney');
+      expect(result.app.id).toBe('tataneu');
+    });
+
+    it('should generate Tata Neu iOS scheme link using tnupi://', () => {
+      const result = buildAppLink({
+        appId: 'tataneu',
+        upiUri: testUpiUri,
+        platform: 'ios'
+      });
+
+      expect(result.url).toBe('tnupi://upi/pay?pa=test%40upi&pn=Test+User&am=100&cu=INR');
+    });
+  });
+
+  describe('WhatsApp', () => {
+    it('should generate WhatsApp Android Intent link', () => {
+      const result = buildAppLink({
+        appId: 'whatsapp',
+        upiUri: testUpiUri,
+        platform: 'android'
+      });
+
+      expect(result.url).toContain('package=com.whatsapp');
+      expect(result.app.id).toBe('whatsapp');
+    });
+  });
+
+  describe('New apps in multiple app links', () => {
+    it('should generate links for new apps alongside existing ones', () => {
+      const appIds = ['gpay', 'cred', 'icici', 'tataneu'] as const;
+      const results = buildMultipleAppLinks(testUpiUri, [...appIds] as any, 'ios');
+
+      expect(results).toHaveLength(4);
+      expect(results[0]!.app.id).toBe('gpay');
+      expect(results[0]!.url).toContain('gpay://');
+      expect(results[1]!.app.id).toBe('cred');
+      expect(results[1]!.url).toContain('credpay://');
+      expect(results[2]!.app.id).toBe('icici');
+      expect(results[1]!.url).toContain('credpay://');
+      expect(results[3]!.app.id).toBe('tataneu');
+    });
+  });
+
+  describe('New apps mandate action', () => {
+    it('should generate mandate links for new apps', () => {
+      const mandateUri = 'upi://mandate?pa=test%40upi&pn=Test+User&am=100&cu=INR&tr=SUB123';
+      const result = buildAppLink({
+        appId: 'cred',
+        upiUri: mandateUri,
+        platform: 'ios',
+        action: 'mandate'
+      });
+
+      expect(result.url).toContain('credpay://upi/mandate?');
+      expect(result.action).toBe('mandate');
+    });
+  });
+
+  describe('Store fallback URLs', () => {
+    it('should include store fallback for known apps', () => {
+      const result = buildAppLink({
+        appId: 'gpay',
+        upiUri: testUpiUri,
+        platform: 'android'
+      });
+
+      expect(result.fallbackUrl).toContain('play.google.com');
+      expect(result.fallbackUrl).toContain('com.google.android.apps.nbu.paisa.user');
+    });
+
+    it('should return undefined fallback for apps without store info', () => {
+      const result = buildAppLink({
+        appId: 'cred',
+        upiUri: testUpiUri,
+        platform: 'android'
+      });
+
+      expect(result.fallbackUrl).toBeUndefined();
+    });
+  });
+});
+
+describe('App Registry - New Apps', () => {
+  it('should include new apps in getAllApps', async () => {
+    const { getAllApps } = await import('../src/data/registry.js');
+    const apps = getAllApps();
+
+    expect(apps.length).toBeGreaterThanOrEqual(32); // 6 existing + 26+ new
+    expect(apps.find(a => a.id === 'cred')).toBeDefined();
+    expect(apps.find(a => a.id === 'whatsapp')).toBeDefined();
+    expect(apps.find(a => a.id === 'icici')).toBeDefined();
+    expect(apps.find(a => a.id === 'tataneu')).toBeDefined();
+  });
+
+  it('should find new apps by ID', async () => {
+    const { getApp } = await import('../src/data/registry.js');
+
+    const cred = getApp('cred');
+    expect(cred).toBeDefined();
+    expect(cred!.androidPackage).toBe('com.dreamplug.androidapp');
+    expect(cred!.ios.pay).toContain('credpay://');
+
+    const whatsapp = getApp('whatsapp');
+    expect(whatsapp).toBeDefined();
+    expect(whatsapp!.androidPackage).toBe('com.whatsapp');
+
+    const fi = getApp('fi');
+    expect(fi).toBeDefined();
+    expect(fi!.androidPackage).toBe('com.fi.money');
+  });
+
+  it('should mark new apps as community-observed', async () => {
+    const { getVerifiedApps, getAllApps } = await import('../src/data/registry.js');
+
+    const allApps = getAllApps();
+    const verified = getVerifiedApps();
+
+    // Only 'generic' and 'gpay' should be verified
+    expect(verified.every(a => a.verification.status === 'verified')).toBe(true);
+
+    // New apps should all be community-observed
+    const newAppIds = ['cred', 'whatsapp', 'icici', 'tataneu', 'fi'];
+    for (const id of newAppIds) {
+      const app = allApps.find(a => a.id === id);
+      expect(app).toBeDefined();
+      expect(app!.verification.status).toBe('community-observed');
+    }
+  });
+
+  it('should include new popular apps in getDefaultAppIds', async () => {
+    const { getDefaultAppIds } = await import('../src/data/registry.js');
+    const defaultIds = getDefaultAppIds();
+
+    expect(defaultIds).toContain('cred');
+    expect(defaultIds).toContain('whatsapp');
+    expect(defaultIds).toContain('icici');
+    expect(defaultIds).toContain('mobikwik');
   });
 });

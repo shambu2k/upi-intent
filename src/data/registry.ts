@@ -5,7 +5,45 @@
 import appsData from './apps.json';
 import type { UpiAction } from '../core/params.js';
 
-export type UpiAppId = 'generic' | 'gpay' | 'phonepe' | 'paytm' | 'bhim' | 'amazonpay';
+export type UpiAppId =
+  | 'generic'
+  | 'gpay'
+  | 'phonepe'
+  | 'paytm'
+  | 'bhim'
+  | 'amazonpay'
+  | 'cred'
+  | 'navi'
+  | 'supermoney'
+  | 'kotak'
+  | 'hdfc'
+  | 'whatsapp'
+  | 'mobikwik'
+  | 'icici'
+  | 'sbi'
+  | 'axis'
+  | 'slice'
+  | 'idfcfirst'
+  | 'jupiter'
+  | 'fampay'
+  | 'airtel'
+  | 'kiwi'
+  | 'shriramone'
+  | 'omnicard'
+  | 'freecharge'
+  | 'tataneu'
+  | 'indusind'
+  | 'bob'
+  | 'postpe'
+  | 'simplypay'
+  | 'onecard'
+  | 'rbl'
+  | 'dbs'
+  | 'canara'
+  | 'pnb'
+  | 'jiopay'
+  | 'flipkart'
+  | 'fi';
 
 export type Platform = 'android' | 'ios';
 
@@ -124,7 +162,7 @@ export function getVerifiedAppIds(): UpiAppId[] {
  */
 export function getDefaultAppIds(): UpiAppId[] {
   const verified = getVerifiedAppIds();
-  const popular = ['gpay', 'phonepe', 'paytm', 'bhim'] as UpiAppId[];
+  const popular = ['gpay', 'phonepe', 'paytm', 'bhim', 'cred', 'whatsapp', 'icici', 'sbi', 'axis', 'mobikwik'] as UpiAppId[];
   
   // Return verified apps plus popular ones (deduped)
   const defaultApps = [...new Set([...verified, ...popular])];
