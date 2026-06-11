@@ -1,6 +1,6 @@
 {
   "name": "upi-intents",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A framework-agnostic JS/TS library for generating UPI app-specific deep links with robust fallbacks for Android and iOS",
   "type": "module",
   "main": "./dist/index.js",
@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "bun run build:types && bun run build:js",
-    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:types": "tsc -p tsconfig.build.json",
     "build:js": "bun build src/index.ts --outdir dist --target browser --format esm",
     "dev": "bun run build --watch",
     "test": "vitest",
