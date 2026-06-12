@@ -17,7 +17,7 @@
 - 📊 **QR Code Support** - Generate QR codes for desktop/fallback scenarios
 - 🎨 **UI Components** - Ready-to-use button components with official app branding
 - 📦 **Tree Shakeable** - ESM modules with TypeScript declarations
-- 🧪 **100% Tested** - Comprehensive test suite with 46 passing tests
+- 🧪 **Thoroughly Tested** - Comprehensive test suite with 70 passing tests
 
 ## 🚀 Quick Start
 
@@ -91,7 +91,7 @@ Generates platform-specific deep links for UPI apps.
 
 ```typescript
 const link = buildAppLink({
-  appId: 'gpay',        // 'gpay' | 'phonepe' | 'paytm' | 'bhim' | 'amazonpay' | 'generic'
+  appId: 'gpay',        // See supported apps table below for all 38 app IDs
   upiUri: 'upi://pay?...',
   platform: 'android'   // 'android' | 'ios' | auto-detected
 });
@@ -201,13 +201,54 @@ export default {
 
 ## 🎯 Supported UPI Apps
 
-| App | Status | Android | iOS | Package/Scheme |
-|-----|--------|---------|-----|----------------|
-| **Google Pay** | ✅ Verified | ✅ | ✅ | `com.google.android.apps.nbu.paisa.user` |
-| **PhonePe** | ⚠️ Community | ✅ | ✅ | `com.phonepe.app` |
-| **Paytm** | ⚠️ Community | ✅ | ✅ | `net.one97.paytm` |
-| **BHIM** | ✅ Verified | ✅ | ✅ | `in.org.npci.upiapp` |
-| **Amazon Pay** | ⚠️ Community | ✅ | ✅ | `in.amazon.mShop.android.shopping` |
+### Third-Party Payment Apps
+| App | Status | Android | iOS | Package / iOS Scheme |
+|-----|--------|---------|-----|----------------------|
+| **Google Pay** | ✅ Verified | ✅ | ✅ | `com.google.android.apps.nbu.paisa.user` / `gpay://` |
+| **PhonePe** | ⚠️ Community | ✅ | ✅ | `com.phonepe.app` / `phonepe://` |
+| **Paytm** | ⚠️ Community | ✅ | ✅ | `net.one97.paytm` / `paytmmp://` |
+| **Amazon Pay** | ⚠️ Community | ✅ | ✅ | `in.amazon.mShop.android.shopping` / `amzn://` |
+| **CRED** | ⚠️ Community | ✅ | ✅ | `com.dreamplug.androidapp` / `credpay://` |
+| **WhatsApp** | ⚠️ Community | ✅ | ✅ | `com.whatsapp` / `whatsapp://` |
+| **MobiKwik** | ⚠️ Community | ✅ | ✅ | `com.mobikwik_new` / `mobikwik://` |
+| **BHIM** | ✅ Verified | ✅ | ✅ | `in.org.npci.upiapp` / `bhim://` |
+| **Tata Neu** | ⚠️ Community | ✅ | ✅ | `com.tatadigital.neumoney` / `tnupi://` |
+| **Navi** | ⚠️ Community | ✅ | ✅ | `com.navi.navidotcom` / `navipay://` |
+| **super.money** | ⚠️ Community | ✅ | ✅ | `com.hsb.super` / `super://` |
+| **FreeCharge** | ⚠️ Community | ✅ | ✅ | `com.freecharge` / `freecharge://` |
+| **Slice** | ⚠️ Community | ✅ | ✅ | `com.slice.pay` / `slicepay://` |
+| **BharatPe** | ⚠️ Community | ✅ | ✅ | `com.postpe.app` / `bharatpe://` |
+| **Fi Money** | ⚠️ Community | ✅ | ✅ | `com.fi.money` / `fi://` |
+| **Jupiter Money** | ⚠️ Community | ✅ | ✅ | `com.jupiter.money` / `jupiter://` |
+| **FamPay** | ⚠️ Community | ✅ | ✅ | `in.fampay.app` / `in.fampay.app://` |
+| **Kiwi** | ⚠️ Community | ✅ | ✅ | `com.kiwi.bank` / `kiwi://` |
+| **OmniCard** | ⚠️ Community | ✅ | ✅ | `com.omnicard` / `omnicard://` |
+| **OneCard** | ⚠️ Community | ✅ | ✅ | `com.creditcard.onecard` / `onecard://` |
+| **SimplyPay UPI** | ⚠️ Community | ✅ | ✅ | `com.simplypay.upi` / `simplypayupi://` |
+| **Shriram One** | ⚠️ Community | ✅ | ✅ | `com.shriramone` / `shriramone://` |
+
+### Banking Apps
+| App | Status | Android | iOS | Package / iOS Scheme |
+|-----|--------|---------|-----|----------------------|
+| **ICICI Bank (iMobile)** | ⚠️ Community | ✅ | ✅ | `com.csam.icici.bank.imobile` / `imobile://` |
+| **SBI (YONO)** | ⚠️ Community | ✅ | ✅ | `com.sbi.lotusintouch` / `yono://` |
+| **Axis Bank** | ⚠️ Community | ✅ | ✅ | `com.upi.axispay` / `axispay://` |
+| **HDFC Bank (PayZapp)** | ⚠️ Community | ✅ | ✅ | `com.hdfc.payzapp` / `payzapp://` |
+| **Kotak Mahindra Bank** | ⚠️ Community | ✅ | ✅ | `com.msf.kbank.mobile` / `kmb://` |
+| **IDFC First Bank** | ⚠️ Community | ✅ | ✅ | `com.idfcfirstbank.ifi` / `idfcfirstbank://` |
+| **IndusInd Bank** | ⚠️ Community | ✅ | ✅ | `com.indusind.indusmobile` / `indusmobile://` |
+| **Bank of Baroda** | ⚠️ Community | ✅ | ✅ | `com.bob.upi` / `bobupi://` |
+| **RBL Bank** | ⚠️ Community | ✅ | ✅ | `com.rblbank.mobank` / `rbl://` |
+| **DBS Bank (digibank)** | ⚠️ Community | ✅ | ✅ | `com.dbs.in.digitalbank` / `dbin://` |
+| **Canara Bank (ai1Pe)** | ⚠️ Community | ✅ | ✅ | `com.canarabhim.upiapp.mobility` / `canara://` |
+| **Punjab National Bank** | ⚠️ Community | ✅ | ✅ | `com.pnb.upi` / `pnbupi://` |
+| **Jio Payments Bank** | ⚠️ Community | ✅ | ✅ | `com.jio.myjio` / `myjio://` |
+| **Airtel Payments Bank** | ⚠️ Community | ✅ | ✅ | `com.myairtelapp` / `myairtel://` |
+
+### E-Commerce & Others
+| App | Status | Android | iOS | Package / iOS Scheme |
+|-----|--------|---------|-----|----------------------|
+| **Flipkart UPI** | ⚠️ Community | ✅ | ✅ | `com.flipkart.android` / `flipkart://` |
 | **Generic UPI** | ✅ Universal | ✅ | ✅ | `upi://` |
 
 ## 📱 Platform Support
@@ -247,7 +288,7 @@ bun run typecheck     # Run TypeScript checks
 ### Testing
 
 ```bash
-bun run test --run    # Run all 55 tests
+bun run test --run    # Run all 70 tests
 ```
 
 Current test coverage will be shown in the coverage badge above.
