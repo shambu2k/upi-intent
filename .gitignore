@@ -35,3 +35,6 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 PRD.md
 CONTEXT.md
+
+# example copy of dist
+examples/react/src/upi-intents.js

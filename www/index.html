@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>upi-intents — The universal UPI deep-link library</title>
+<style>
+/* ============================================================
+   OPENCODE DESIGN SYSTEM
+   ============================================================ */
+
+:root {
+  /* Warm pastel palette — peachy rose */
+  --ink: #402d33;
+  --ink-deep: #2e1d23;
+
+  /* Canvas */
+  --canvas: #fef9f6;
+  --surface-soft: #fcf5f1;
+  --surface-card: #faf0e9;
+  --surface-dark: #402d33;
+
+  /* Hairlines */
+  --hairline: rgba(64, 45, 51, 0.10);
+  --hairline-strong: #8a7a7f;
+
+  /* Text hierarchy */
+  --body: #5e484f;
+  --mute: #8a7a7f;
+  --stone: #9e8e93;
+  --ash: #b5a7ab;
+
+  /* Radius */
+  --rounded-sm: 4px;
+
+  /* Spacing */
+  --section: 96px;
+
+  /* Typography */
+  --font-mono: 'Berkeley Mono', 'IBM Plex Mono', 'JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--canvas);
+  min-height: 100vh;
+}
+
+/* ---- PRIMARY NAV ---- */
+.primary-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.nav-wordmark {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-brand {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-link {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-cta {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 2;
+  color: var(--canvas);
+  background: var(--ink);
+  padding: 4px 20px;
+  border: none;
+  border-radius: var(--rounded-sm);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-cta:active {
+  background: var(--ink-deep);
+}
+
+/* ---- CONTENT CONTAINER ---- */
+.content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---- NEWS BADGE ---- */
+.news-strip {
+  padding: 24px 0 8px;
+}
+
+.news-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 2;
+  color: var(--canvas);
+  background: var(--surface-dark);
+  padding: 2px 8px;
+  border-radius: var(--rounded-sm);
+}
+
+.news-text {
+  display: inline;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--body);
+  margin-left: 8px;
+}
+
+/* ---- HERO ---- */
+.hero {
+  padding: 24px 0 0;
+}
+
+.hero-headline {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 38px;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 720px;
+}
+
+.hero-sub {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--body);
+  margin-top: 8px;
+  max-width: 640px;
+}
+
+/* ---- INSTALL SNIPPET ---- */
+.install-snippet {
+  margin-top: 24px;
+  background: var(--surface-card);
+  padding: 12px 16px;
+  border-radius: var(--rounded-sm);
+  display: inline-block;
+}
+
+.install-snippet code {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* ---- SECTION ---- */
+.section {
+  padding-top: var(--section);
+  border-top: 1px solid var(--hairline);
+  margin-top: 0;
+}
+
+.section:first-of-type {
+  border-top: none;
+  padding-top: var(--section);
+}
+
+.section-heading {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.section-body {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--body);
+  max-width: 640px;
+}
+
+/* ---- FEATURE LIST ---- */
+.feature-list {
+  list-style: none;
+  margin-top: 16px;
+}
+
+.feature-item {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 8px 0;
+  color: var(--body);
+}
+
+.feature-item .marker {
+  font-weight: 700;
+  color: var(--ink);
+  margin-right: 4px;
+}
+
+.feature-item .label {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* ---- APP LIST ROWS ---- */
+.app-list {
+  list-style: none;
+}
+
+.app-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--hairline);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.app-row:last-child {
+  border-bottom: none;
+}
+
+.app-row-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--rounded-sm);
+  object-fit: contain;
+  background: var(--canvas);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+.app-row-icon-fallback {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--rounded-sm);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 10px;
+  color: var(--canvas);
+  background: var(--ink);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+.app-row-name {
+  flex: 1;
+  font-weight: 500;
+  color: var(--ink);
+  min-width: 0;
+}
+
+.app-row-badge {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 7px;
+  border-radius: var(--rounded-sm);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.badge-verified {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+.badge-community {
+  background: var(--surface-card);
+  color: var(--mute);
+}
+
+.app-row-link {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 2;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid var(--hairline-strong);
+  padding: 2px 16px;
+  border-radius: var(--rounded-sm);
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.app-row-link:active {
+  background: var(--surface-card);
+}
+
+.app-row-uri {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+  flex-shrink: 1;
+}
+
+/* ---- FAQ ---- */
+.faq-item {
+  border-bottom: 1px solid var(--hairline);
+  padding: 12px 0;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-q {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--ink);
+  cursor: default;
+}
+
+.faq-a {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--body);
+  margin-top: 4px;
+}
+
+/* ---- FOOTER ---- */
+.footer {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  border-top: 1px solid var(--hairline);
+  margin-top: var(--section);
+}
+
+.footer-grid {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.footer-link {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 2;
+  color: var(--mute);
+  text-decoration: none;
+  padding: 8px 16px;
+}
+
+.footer-link:hover {
+  color: var(--ink);
+}
+
+.footer-divider {
+  width: 1px;
+  background: var(--hairline);
+  align-self: center;
+  height: 20px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 2;
+  color: var(--mute);
+}
+
+.footer-bottom span {
+  padding: 4px 8px;
+}
+
+/* ---- RESPONSIVE ---- */
+
+/* Tablet */
+@media (max-width: 850px) {
+  .hero-headline { font-size: 32px; }
+  .footer-grid { gap: 0; }
+  .footer-divider:nth-child(6),
+  .footer-divider:nth-child(10) { display: none; }
+}
+
+/* Tablet narrow */
+@media (max-width: 768px) {
+  .nav-links { gap: 12px; }
+  .nav-link { font-size: 12px; }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .primary-nav { padding: 0 16px; }
+  .content { padding: 0 16px; }
+  .hero-headline { font-size: 28px; }
+  .install-snippet code { font-size: 13px; }
+  .section { padding-top: 48px; }
+  .app-row { flex-wrap: wrap; gap: 8px; }
+  .app-row-uri { display: none; }
+  .app-row-link { width: 100%; text-align: center; padding: 8px; min-height: 44px; }
+  .footer { padding: 24px 16px; margin-top: 48px; }
+  .footer-link { padding: 8px 12px; font-size: 12px; }
+  .nav-link:not(.nav-cta-parent) { display: none; }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .hero-headline { font-size: 24px; }
+  .install-snippet code { font-size: 12px; }
+  .section { padding-top: 40px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======== PRIMARY NAV ======== -->
+<nav class="primary-nav">
+  <a class="nav-brand" href="">upi-intents</a>
+  <div class="nav-links">
+    <a class="nav-link" href="https://github.com/shambu2k/upi-intent" target="_blank" rel="noopener">GitHub</a>
+    <a class="nav-link" href="https://www.npmjs.com/package/upi-intents" target="_blank" rel="noopener">npm</a>
+    <a class="nav-link" href="https://github.com/shambu2k/upi-intent#readme" target="_blank" rel="noopener">Docs</a>
+    <a class="nav-cta" href="#apps">Browse Apps &darr;</a>
+  </div>
+</nav>
+
+<div class="content">
+
+<!-- ======== NEWS BADGE ======== -->
+<div class="news-strip">
+  <span class="news-badge">[News]</span>
+  <span class="news-text" id="versionBadge">v0.2.0 — 38 apps, 1 API. Platform: detecting...</span>
+</div>
+
+<!-- ======== HERO ======== -->
+<div class="hero">
+  <h1 class="hero-headline">The universal UPI deep-link library.</h1>
+  <p class="hero-sub">Framework-agnostic TypeScript. One API call to generate Android Intent URLs and iOS scheme URLs for every UPI app in India. NPCI v1.6 compliant. 53 KB tree-shakeable ESM.</p>
+  <div class="install-snippet">
+    <code>npm install upi-intents</code>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<!-- ======== WHAT IS UPI-INTENTS ======== -->
+<div class="content">
+<div class="section">
+  <div class="section-heading">[+] What is upi-intents?</div>
+  <p class="section-body">A framework-agnostic TypeScript library that generates app-specific UPI deep links for Android and iOS. Give it a payee address, and it returns ready-to-use URLs for Google Pay, PhonePe, Paytm, and 35 other Indian payment apps — with automatic platform detection and app store fallbacks.</p>
+  <ul class="feature-list">
+    <li class="feature-item"><span class="marker">[x]</span> <span class="label">NPCI v1.6 compliant</span> — Full UPI URI validation, all mandatory and optional parameters</li>
+    <li class="feature-item"><span class="marker">[x]</span> <span class="label">38 UPI apps supported</span> — Third-party apps, banking apps, e-commerce UPI</li>
+    <li class="feature-item"><span class="marker">[x]</span> <span class="label">Android Intent URLs + iOS scheme URLs</span> — Platform-appropriate deep links with store fallbacks</li>
+    <li class="feature-item"><span class="marker">[x]</span> <span class="label">QR code generation</span> — Desktop fallback via qr-creator, PNG + SVG output</li>
+    <li class="feature-item"><span class="marker">[x]</span> <span class="label">Tree-shakeable ESM</span> — 53 KB bundle, zero framework dependencies, works everywhere</li>
+  </ul>
+</div>
+</div>
+
+<!-- ======== APP LIST SECTIONS ======== -->
+<div class="content">
+<div class="section" id="apps">
+  <div class="section-heading" id="sectionHeading1">[x] Third-Party Payment Apps (22)</div>
+  <ul class="app-list" id="appList1"></ul>
+
+  <div class="section-heading" style="margin-top: 40px;" id="sectionHeading2">[x] Banking Apps (14)</div>
+  <ul class="app-list" id="appList2"></ul>
+
+  <div class="section-heading" style="margin-top: 40px;" id="sectionHeading3">[x] E-Commerce &amp; Others (2)</div>
+  <ul class="app-list" id="appList3"></ul>
+</div>
+</div>
+
+<!-- ======== FAQ ======== -->
+<div class="content">
+<div class="section">
+  <div class="section-heading">[+] FAQ</div>
+
+  <div class="faq-item">
+    <div class="faq-q">+ What platforms are supported?</div>
+    <div class="faq-a">Android (Chrome Intent URLs with package targeting) and iOS (custom URL schemes). The library auto-detects the platform from the user agent. On desktop, use the QR code fallback.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">+ How do I use this on desktop?</div>
+    <div class="faq-a">Scan the QR code below with any UPI app on your phone. The QR encodes a standard upi://pay URI that every UPI app understands.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">+ Are the deep links tested?</div>
+    <div class="faq-a">Google Pay and Generic UPI are verified against official documentation. All other apps are community-observed — their schemes are collected from ecosystem references. We welcome corrections.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">+ What is the license?</div>
+    <div class="faq-a">GPL-3.0-only. Free for personal and educational use. Contact the author for commercial licensing.</div>
+  </div>
+</div>
+</div>
+
+<!-- ======== FOOTER ======== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <a class="footer-link" href="https://github.com/shambu2k/upi-intent" target="_blank" rel="noopener">GitHub</a>
+    <div class="footer-divider"></div>
+    <a class="footer-link" href="https://www.npmjs.com/package/upi-intents" target="_blank" rel="noopener">npm</a>
+    <div class="footer-divider"></div>
+    <a class="footer-link" href="https://github.com/shambu2k/upi-intent#readme" target="_blank" rel="noopener">Docs</a>
+    <div class="footer-divider"></div>
+    <a class="footer-link" href="https://github.com/shambu2k/upi-intent/issues" target="_blank" rel="noopener">Issues</a>
+    <div class="footer-divider"></div>
+    <a class="footer-link" href="mailto:shambu@duck.com?subject=upi-intents">Email</a>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Sidharth Shambu</span>
+    <span>GPL-3.0-only</span>
+  </div>
+</footer>
+
+<!-- ============================================================
+     SCRIPT
+     ============================================================ -->
+<script type="module">
+import {
+  getAllApps,
+  buildAppLink,
+  createPaymentUri,
+  detectPlatform,
+  generateQRCode,
+  generateQRCanvas
+} from '../dist/index.js';
+
+// ---- Constants ----
+const PAYEE_ADDRESS = 'sidharth949@paytm';
+const PAYEE_NAME = 'Sidharth Shambu';
+const upiUri = createPaymentUri(PAYEE_ADDRESS, PAYEE_NAME);
+const platform = detectPlatform();
+
+// ---- Favicon domain map (from upidashboard.in) ----
+const APP_DOMAINS = {
+  gpay: 'pay.google.com',
+  phonepe: 'phonepe.com',
+  paytm: 'paytm.com',
+  amazonpay: 'amazon.in',
+  cred: 'cred.club',
+  whatsapp: 'whatsapp.com',
+  mobikwik: 'mobikwik.com',
+  bhim: 'bhimupi.org.in',
+  tataneu: 'tataneu.com',
+  navi: 'navi.com',
+  supermoney: 'super.money',
+  freecharge: 'freecharge.in',
+  slice: 'sliceit.com',
+  postpe: 'bharatpe.com',
+  fi: 'fi.money',
+  jupiter: 'jupiter.money',
+  fampay: 'fampay.in',
+  kiwi: 'gokiwi.in',
+  omnicard: 'omnicard.in',
+  onecard: 'getonecard.app',
+  simplypay: 'hsbc.co.in',
+  shriramone: 'shriramone.in',
+  icici: 'icicibank.com',
+  sbi: 'onlinesbi.sbi',
+  axis: 'axisbank.com',
+  hdfc: 'hdfcbank.com',
+  kotak: 'kotak.com',
+  idfcfirst: 'idfcfirstbank.com',
+  indusind: 'indusind.com',
+  bob: 'bankofbaroda.in',
+  rbl: 'rblbank.com',
+  dbs: 'dbs.com',
+  canara: 'canarabank.com',
+  pnb: 'pnbindia.in',
+  jiopay: 'jiopaymentsbank.com',
+  airtel: 'airtel.in',
+  flipkart: 'flipkart.com',
+  generic: 'npci.org.in'
+};
+
+// ---- App Categories ----
+const CATEGORIES = [
+  {
+    listId: 'appList1',
+    headingId: 'sectionHeading1',
+    ids: [
+      'gpay', 'phonepe', 'paytm', 'amazonpay', 'cred', 'whatsapp',
+      'mobikwik', 'bhim', 'tataneu', 'navi', 'supermoney', 'freecharge',
+      'slice', 'postpe', 'fi', 'jupiter', 'fampay', 'kiwi',
+      'omnicard', 'onecard', 'simplypay', 'shriramone'
+    ]
+  },
+  {
+    listId: 'appList2',
+    headingId: 'sectionHeading2',
+    ids: [
+      'icici', 'sbi', 'axis', 'hdfc', 'kotak', 'idfcfirst',
+      'indusind', 'bob', 'rbl', 'dbs', 'canara', 'pnb',
+      'jiopay', 'airtel'
+    ]
+  },
+  {
+    listId: 'appList3',
+    headingId: 'sectionHeading3',
+    ids: ['flipkart', 'generic']
+  }
+];
+
+// ---- Render ----
+let totalApps = 0;
+
+for (const category of CATEGORIES) {
+  const listEl = document.getElementById(category.listId);
+  const headingEl = document.getElementById(category.headingId);
+  let rows = '';
+
+  category.ids.forEach(appId => {
+    const app = getAllApps().find(a => a.id === appId);
+    if (!app) return;
+
+    const isVerified = app.verification.status === 'verified';
+    const badgeClass = isVerified ? 'badge-verified' : 'badge-community';
+    const badgeText = isVerified ? 'VERIFIED' : 'COMMUNITY';
+    const domain = APP_DOMAINS[app.id] || '';
+    const faviconUrl = domain
+      ? `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+      : '';
+
+    let linkUrl = '';
+    try {
+      const link = buildAppLink({ appId: app.id, upiUri, platform });
+      linkUrl = link.url;
+    } catch (e) {
+      linkUrl = upiUri;
+    }
+
+    rows += `
+      <li class="app-row">
+        ${faviconUrl ? `<img class="app-row-icon" src="${faviconUrl}" alt="${app.label} icon" width="26" height="26" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><span class="app-row-icon-fallback" style="display:none;">${getInitials(app.label)}</span>` : `<span class="app-row-icon-fallback">${getInitials(app.label)}</span>`}
+        <span class="app-row-name">${app.label}</span>
+        <span class="app-row-badge ${badgeClass}">${badgeText}</span>
+        <a class="app-row-link" href="${escapeAttr(linkUrl)}" target="_blank" rel="noopener" title="Open ${app.label}">PAY &rarr;</a>
+      </li>`;
+
+    totalApps++;
+  });
+
+  listEl.innerHTML = rows;
+
+  // Update section heading with count
+  const count = category.ids.filter(id => getAllApps().some(a => a.id === id)).length;
+  const baseLabel = headingEl.textContent.replace(/\s*\(\d+\)\s*$/, '');
+  headingEl.textContent = `${baseLabel} (${count})`;
+}
+
+// ---- Status Bar Updates ----
+document.getElementById('versionBadge').textContent =
+  `v0.2.0 — ${totalApps} apps, 1 API. Platform: ${platform}`;
+
+// ---- QR Code (inject after FAQ) ----
+try {
+  const qrSection = document.createElement('div');
+  qrSection.className = 'section';
+  qrSection.innerHTML = `
+    <div class="section-heading">[x] QR Code — Scan with any UPI app</div>
+    <p class="section-body" style="margin-bottom:16px;">Point your phone camera at this code. It opens <code style="background:var(--surface-card);padding:2px 6px;border-radius:var(--rounded-sm);">${escapeHtml(upiUri)}</code> in any UPI app installed on your device.</p>
+    <div id="qrContainer" style="background:var(--canvas);padding:16px;display:inline-block;border:1px solid var(--hairline);border-radius:var(--rounded-sm);"></div>
+  `;
+  document.querySelector('.content:last-of-type').appendChild(qrSection);
+
+  const qr = generateQRCode(upiUri, { size: 200 });
+  if (qr.svg && qr.svg.length > 0) {
+    document.getElementById('qrContainer').innerHTML = qr.svg;
+  } else {
+    const canvas = generateQRCanvas(upiUri, { size: 200 });
+    if (canvas) {
+      const img = document.createElement('img');
+      img.src = canvas.toDataURL('image/png');
+      img.width = 200;
+      img.height = 200;
+      img.alt = 'UPI Payment QR Code';
+      img.style.display = 'block';
+      document.getElementById('qrContainer').appendChild(img);
+    }
+  }
+} catch (e) {
+  // QR failed silently — non-critical
+}
+
+// ---- Helpers ----
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
+function escapeAttr(str) {
+  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function getInitials(label) {
+  return label.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+}
+</script>
+
+</body>
+</html>
